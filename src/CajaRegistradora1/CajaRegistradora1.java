@@ -6,7 +6,7 @@ public class CajaRegistradora1 {
 		// TODO Auto-generated method stub
 		VentanaPrincipal a = new  VentanaPrincipal();
 		a.setVisible(true);
-		System.out.print("hola");
+		
 	}
 
 }

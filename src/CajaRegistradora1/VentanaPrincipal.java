@@ -9,7 +9,7 @@ import javax.swing.JFrame;
 public class VentanaPrincipal extends JFrame{
 	public TreeMap listPersona;
 	public TreeMap listProductos;
-	
+	PanelIzquierdo panelizquierdo;
 	public VentanaPrincipal() {
 			super("Mi ventana principal");
 			listPersona = new TreeMap();
@@ -33,6 +33,9 @@ public class VentanaPrincipal extends JFrame{
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		return this;
 	}
-	
+	private void componente() {
+		panelizquierdo = new PanelIzquierdo();
+		add(panelizquierdo, BorderLayout.WEST);
+	}
 
 }

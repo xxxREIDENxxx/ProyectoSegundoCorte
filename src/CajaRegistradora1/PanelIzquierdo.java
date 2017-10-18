@@ -30,7 +30,7 @@ public class PanelIzquierdo extends JPanel implements ActionListener{
 		Border borde1 = BorderFactory.createTitledBorder("Formulario");
 		setBorder (borde1);
 		
-		Jbt_AgregarPro = new JButton("Agregar");
+		Jbt_AgregarPro = new JButton("Agregar Producto");
         Jbt_AgregarPro.addActionListener(this);
         Jbt_AgregarPro.setActionCommand("a");
         c=new GridBagConstraints();
@@ -41,7 +41,7 @@ public class PanelIzquierdo extends JPanel implements ActionListener{
         c.insets = in;
         add(Jbt_AgregarPro,c);
         
-        Jbt_VerListado = new JButton("Agregar");
+        Jbt_VerListado = new JButton("Ver Listado");
         Jbt_VerListado.addActionListener(this);
         Jbt_VerListado.setActionCommand("a");
         c=new GridBagConstraints();
@@ -52,7 +52,7 @@ public class PanelIzquierdo extends JPanel implements ActionListener{
         c.insets = in;
         add(Jbt_VerListado,c);
         
-        Jbt_AlertaInv = new JButton("Agregar");
+        Jbt_AlertaInv = new JButton("Alerta Stock");
         Jbt_AlertaInv.addActionListener(this);
         Jbt_AlertaInv.setActionCommand("a");
         c=new GridBagConstraints();
@@ -63,7 +63,7 @@ public class PanelIzquierdo extends JPanel implements ActionListener{
         c.insets = in;
         add(Jbt_AlertaInv,c);
         
-        Jbt_RegistrarCliente = new JButton("Agregar");
+        Jbt_RegistrarCliente = new JButton("Registrar cliente");
         Jbt_RegistrarCliente.addActionListener(this);
         Jbt_AlertaInv.setActionCommand("a");
         c=new GridBagConstraints();
@@ -74,7 +74,7 @@ public class PanelIzquierdo extends JPanel implements ActionListener{
         c.insets = in;
         add(Jbt_RegistrarCliente,c);
         
-        Jbt_ListadoClientes = new JButton("Agregar");
+        Jbt_ListadoClientes = new JButton("Listado Cliente");
         Jbt_ListadoClientes.addActionListener(this);
         Jbt_AlertaInv.setActionCommand("a");
         c=new GridBagConstraints();
@@ -85,7 +85,7 @@ public class PanelIzquierdo extends JPanel implements ActionListener{
         c.insets = in;
         add(Jbt_ListadoClientes,c);
         
-        Jbt_MejoresClientes = new JButton("Agregar");
+        Jbt_MejoresClientes = new JButton("Mejores Clientes");
         Jbt_MejoresClientes.addActionListener(this);
         Jbt_AlertaInv.setActionCommand("a");
         c=new GridBagConstraints();
