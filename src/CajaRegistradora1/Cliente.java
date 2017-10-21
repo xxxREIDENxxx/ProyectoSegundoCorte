@@ -1,5 +1,7 @@
 package CajaRegistradora1;
 
+import java.util.ArrayList;
+
 public class Cliente {
 	private String nombre;
 	private String apellido;
@@ -7,6 +9,7 @@ public class Cliente {
 	private int cedula;
 	private String empresa;
 	private float sueldo;
+	private ArrayList productos;
 	
 	public Cliente(String _nombre, String _apellido, int _edad, int _cedula, String _empresa, float _sueldo) {
 		nombre = _nombre;
@@ -63,6 +66,14 @@ public class Cliente {
 
 	public void setSueldo(float sueldo) {
 		this.sueldo = sueldo;
+	}
+
+	public ArrayList getProductos() {
+		return productos;
+	}
+
+	public void setProductos(ArrayList productos) {
+		this.productos = productos;
 	}
 
 }

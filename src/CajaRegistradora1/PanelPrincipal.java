@@ -8,6 +8,8 @@ public class PanelPrincipal extends JTabbedPane{
 	
 	PanelCliente panelCliente;
 	
+	PanelCompra panelCompra;
+	
 	VentanaPrincipal ventana;
 	
 	public PanelPrincipal(VentanaPrincipal v) {
@@ -24,9 +26,11 @@ public class PanelPrincipal extends JTabbedPane{
 	public void componentes(){
 		panelProducto = new PanelProducto(ventana);
 		panelCliente = new PanelCliente(ventana);
+		panelCompra = new PanelCompra(ventana);
 		
 		add(panelProducto, "Producto");
 		add(panelCliente, "Cliente");
+		add(panelCompra, "Comprar");
 		
 	}
 }

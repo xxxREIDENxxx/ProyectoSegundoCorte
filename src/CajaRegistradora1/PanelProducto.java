@@ -5,6 +5,7 @@ import java.awt.Font;
 import java.awt.GridBagLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.util.ArrayList;
@@ -13,6 +14,7 @@ import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
@@ -20,7 +22,7 @@ import javax.swing.JTextField;
 import javax.swing.border.Border;
 import javax.swing.table.DefaultTableModel;
 
-public class PanelProducto extends JPanel implements ActionListener, KeyListener{
+public class PanelProducto extends JPanel implements ActionListener{
 
 	JLabel jlNombre;
 	JLabel jlCantidad;
@@ -87,7 +89,7 @@ public class PanelProducto extends JPanel implements ActionListener, KeyListener
 		tCantidad = new JTextField();
 		tCantidad.setFont(fuente);
 		tCantidad.setBounds(jlCantidad.getX()+jlCantidad.getWidth(), jlCantidad.getY(), 150, heigh);
-		tCantidad.addKeyListener(this);
+		tCantidad.addKeyListener(new soloNumeros());
 		add(tCantidad);
 		
 		jlMarca = new JLabel("Marca:");
@@ -111,7 +113,7 @@ public class PanelProducto extends JPanel implements ActionListener, KeyListener
 		tPeso = new JTextField();
 		tPeso.setFont(fuente);
 		tPeso.setBounds(jlPeso.getX()+jlPeso.getWidth(), jlPeso.getY(), 150, heigh);
-		tPeso.addKeyListener(this);
+		tPeso.addKeyListener(new soloNumeros());
 		add(tPeso);
 		
 		jlValor = new JLabel("V. Unidad:");
@@ -122,7 +124,7 @@ public class PanelProducto extends JPanel implements ActionListener, KeyListener
 		tValor = new JTextField();
 		tValor.setFont(fuente);
 		tValor.setBounds(jlValor.getX()+jlValor.getWidth(), jlValor.getY(), 150, heigh);
-		tValor.addKeyListener(this);
+		tValor.addKeyListener(new soloNumeros());
 		add(tValor);
 		
 		btnAgregar = new JButton("Agregar");
@@ -185,6 +187,10 @@ public class PanelProducto extends JPanel implements ActionListener, KeyListener
 	}
 	
 	public boolean validarDatos(){
+		if(tCantidad.getText().trim().equals("") || tPeso.getText().trim().equals("")|| tValor.getText().trim().equals("") || cbMarca.getSelectedIndex() == 0 || cbNombre.getSelectedIndex() == 0){
+			JOptionPane.showMessageDialog(null, "Llene todos los campos.", "Error", JOptionPane.ERROR_MESSAGE);
+			return false;
+		}
 		return true;
 	}
 	
@@ -210,26 +216,18 @@ public class PanelProducto extends JPanel implements ActionListener, KeyListener
 				System.out.println("Agrego");
 				productos.add(p);
 				actualizarTabla();
+				ventanaPrincipal.panelPrincipal.panelCompra.actualizarProductos();
 			}
 		}
 	}
-
-	@Override
-	public void keyPressed(KeyEvent e) {
-		System.out.println(e.getKeyChar());
-		if(e.getKeyChar() > '9' && e.getKeyChar() > 31){
-			e.consume();
-		}
-	}
-
-	@Override
-	public void keyReleased(KeyEvent e) {
-		
-	}
-
-	@Override
-	public void keyTyped(KeyEvent e) {
-		
-	}
+	
+	class soloNumeros extends KeyAdapter{
+        @Override
+        public void keyTyped(KeyEvent tecla) {
+            if(tecla.getKeyChar() < '0' || tecla.getKeyChar() > '9' && tecla.getKeyChar() > 31){
+                tecla.consume();
+            }
+        } 
+    }
 
 }

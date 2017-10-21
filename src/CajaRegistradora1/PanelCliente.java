@@ -4,20 +4,26 @@ import java.awt.Color;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JFileChooser;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
 import javax.swing.JSpinner;
 import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.table.DefaultTableModel;
 
-public class PanelCliente extends JPanel implements ActionListener, KeyListener{
+public class PanelCliente extends JPanel implements ActionListener{
 
 	JLabel jlNombre;
 	JLabel jlApellido;
@@ -42,12 +48,16 @@ public class PanelCliente extends JPanel implements ActionListener, KeyListener{
 	JTable tabla;
 	JTable tabla2;
 	
+	ArrayList<Cliente> clientes;
+	
 	VentanaPrincipal ventana;
 	
 	public PanelCliente(VentanaPrincipal v) {
+		clientes = new ArrayList<>();
 		this.ventana = v;
 		configuracion();
 		componentes();
+		actualizarTabla();
 	}
 	
 	public void configuracion(){
@@ -78,7 +88,7 @@ public class PanelCliente extends JPanel implements ActionListener, KeyListener{
 		tApellido = new JTextField();
 		tApellido.setFont(fuente);
 		tApellido.setBounds(jlApellido.getX()+jlApellido.getWidth(), jlApellido.getY(), 150, heigh);
-		tApellido.addKeyListener(this);
+		
 		add(tApellido);
 		
 		jlCedula = new JLabel("Cedula:");
@@ -89,7 +99,7 @@ public class PanelCliente extends JPanel implements ActionListener, KeyListener{
 		tCedula = new JTextField();
 		tCedula.setFont(fuente);
 		tCedula.setBounds(jlCedula.getX()+jlCedula.getWidth(), jlCedula.getY(), 150, heigh);
-		tCedula.addKeyListener(this);
+		tCedula.addKeyListener(new soloNumeros());
 		add(tCedula);
 		
 		jlEdad = new JLabel("Edad:");
@@ -100,7 +110,7 @@ public class PanelCliente extends JPanel implements ActionListener, KeyListener{
 		tEdad = new JTextField();
 		tEdad.setFont(fuente);
 		tEdad.setBounds(jlEdad.getX()+jlEdad.getWidth(), jlEdad.getY(), 150, heigh);
-		//sEdad.addKeyListener(this);
+		tEdad.addKeyListener(new soloNumeros());
 		add(tEdad);
 		
 		jlEmpresa = new JLabel("Empresa:");
@@ -121,6 +131,7 @@ public class PanelCliente extends JPanel implements ActionListener, KeyListener{
 		tSueldo = new JTextField();
 		tSueldo.setFont(fuente);
 		tSueldo.setBounds(jlSueldo.getX()+jlSueldo.getWidth(), jlSueldo.getY(), 150, heigh);
+		tSueldo.addKeyListener(new soloNumeros());
 		add(tSueldo);
 		
 		jlFoto = new JLabel("Foto:");
@@ -138,30 +149,117 @@ public class PanelCliente extends JPanel implements ActionListener, KeyListener{
 		btnAgregar.setBounds(jlFoto.getX(), jlFoto.getY()+jlFoto.getHeight()+sep, 150, heigh);
 		btnAgregar.addActionListener(this);
 		add(btnAgregar);
-	}
-
-	@Override
-	public void keyPressed(KeyEvent e) {
-		// TODO Auto-generated method stub
+		
+		tabla = new JTable();
+		tabla.setAutoCreateRowSorter(true);
+		
+		JScrollPane scroll = new JScrollPane(tabla);
+		scroll.setBounds(320, 20, 480, 250);
+		
+		add(scroll);
+		
+		tabla2 = new JTable();
+		tabla2.setAutoCreateRowSorter(true);
+		
+		JScrollPane scroll2 = new JScrollPane(tabla2);
+		scroll2.setBounds(scroll.getX(), scroll.getY()+scroll.getHeight()+sep, 480, 180);
+		
+		add(scroll2);
+		
 		
 	}
 
-	@Override
-	public void keyReleased(KeyEvent e) {
-		// TODO Auto-generated method stub
+	public void actualizarTabla(){
+		modelo = new DefaultTableModel();
+		modelo.addColumn("Nombre");
+		modelo.addColumn("Apellido");
+		modelo.addColumn("Edad");
+		modelo.addColumn("Cedula");
+		modelo.addColumn("Empresa");
+		modelo.addColumn("Sueldo");
 		
-	}
-
-	@Override
-	public void keyTyped(KeyEvent e) {
-		// TODO Auto-generated method stub
+		modelo2 = new DefaultTableModel();
+		modelo2.addColumn("Nombre");
+		modelo2.addColumn("Apellido");
+		modelo2.addColumn("Edad");
+		modelo2.addColumn("Cedula");
+		modelo2.addColumn("Empresa");
+		modelo2.addColumn("Sueldo");
 		
+		tabla2.setModel(modelo2);
+		tabla.setModel(modelo);
+		
+		Collections.sort(clientes, new Comparator<Cliente>() {
+			@Override
+			public int compare(Cliente p1, Cliente p2) {
+				return new Float(p2.getSueldo()).compareTo(p1.getSueldo());
+			}
+		});
+		
+		for(int i = 0; i < clientes.size(); i++){
+			Object m[] = {clientes.get(i).getNombre(), 
+					clientes.get(i).getApellido(), 
+					clientes.get(i).getEdad(), 
+					clientes.get(i).getCedula(), 
+					clientes.get(i).getEmpresa(), 
+					clientes.get(i).getSueldo()};
+			
+			if(i > 2){
+				modelo.addRow(m);
+			}
+			else{
+				modelo.addRow(m);
+				modelo2.addRow(m);
+			}
+			
+		}
 	}
+	
+	class soloNumeros extends KeyAdapter{
+        @Override
+        public void keyTyped(KeyEvent tecla) {
+            if(tecla.getKeyChar() < '0' || tecla.getKeyChar() > '9' && tecla.getKeyChar() > 31){
+                tecla.consume();
+            }
+        } 
+    }
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		// TODO Auto-generated method stub
+		if (e.getSource() == btnAgregar){
+			if(validarDatos()){
+				String nombre = tNombre.getText().trim();
+				String apellido = tApellido.getText().trim();
+				int cedula = Integer.parseInt(tCedula.getText().trim());
+				int edad = Integer.parseInt(tEdad.getText().trim());
+				String empresa = tEmpresa.getText().trim();
+				float sueldo = Float.parseFloat(tSueldo.getText().trim());
+				
+				Cliente c = new Cliente(nombre, apellido, edad, cedula, empresa, sueldo);
+				System.out.println("Agrego");
+				clientes.add(c);
+				actualizarTabla();
+				ventana.panelPrincipal.panelCompra.actualizarClientes();
+			}
+		}
 		
+	}
+	
+	public boolean validarDatos(){
+		//&& tApellido.getText().trim() == ""&& tCedula.getText().trim() == "" && tEdad.getText().trim() == "" && tEmpresa.getText().trim() == "" && tSueldo.getText().trim() == ""
+		if(tNombre.getText().trim().equals("") || tApellido.getText().trim().equals("")|| tCedula.getText().trim().equals("")|| tEdad.getText().trim().equals("")|| tEmpresa.getText().trim().equals("")|| tSueldo.getText().trim().equals("")){
+			JOptionPane.showMessageDialog(null, "Llene todos los campos.", "Error", JOptionPane.ERROR_MESSAGE);
+			return false;
+		}
+		return true;
+	}
+
+	public ArrayList<Cliente> getClientes() {
+		return clientes;
+	}
+
+	public void setClientes(ArrayList<Cliente> clientes) {
+		this.clientes = clientes;
 	}
 
 }
